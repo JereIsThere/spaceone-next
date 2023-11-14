@@ -1,10 +1,18 @@
+import Image from "next/image"
+
 type BannerProps = {
     isCollapsed: boolean
 }
 
 export const Banner = (props: BannerProps) => {
     return (
-    <img src={getLogo(props.isCollapsed)} style={{width: '100%'}}/>
+        <Image
+            alt="Banner with logo"
+            src={getLogo(props.isCollapsed)}
+            width="0"
+            height="0"
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto' }}/>
     )
 }
 

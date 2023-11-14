@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model event_participants {
+  eventId Int
+  userId  Int
+  status  Int? @db.TinyInt
+
+  @@id([eventId, userId])
+  event   events  @relation(fields: [eventId], references: [eventId], onUpdate: NoAction, onDelete: NoAction)
+  user    users   @relation(fields: [userId], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model events {
+  eventId      Int      @id @default(autoincrement())
+  placeId      Int      
+  place        locations @relation(fields: [placeId], references: [placeId], onDelete: NoAction, onUpdate: NoAction)
+  time         DateTime @default(now()) @db.Timestamp(0)
+  description  String?  @db.VarChar(1000)
+  hasTeamsCall Int?     @db.TinyInt
+  name         String   @db.VarChar(45)
+  participants event_participants[]
+}
+
+model locations {
+  placeId       Int     @id @default(autoincrement()) 
+  planet        String  @db.VarChar(45)
+  country       String  @db.VarChar(45)
+  zip_code      String  @db.VarChar(45)
+  city          String  @db.VarChar(45)
+  street        String  @db.VarChar(45)
+  street_number String  @db.VarChar(45)
+  building      String? @db.VarChar(45)
+  room          String  @db.VarChar(45)
+  events        events[]
+}
+
+model users {
+  userID     Int    @id @default(autoincrement())
+  first_name String @db.VarChar(45)
+  last_name  String @db.VarChar(45)
+  roleID     Int
+  events     event_participants[]
+}
