@@ -23,22 +23,22 @@ export const EventForm = (props:EventFormProps) => {
             <form action={createCallback} ref={formRef} className={styles.eventForm} >
                 <div>
                     <label>Name: </label>
-                    <input type="text" name="name" />
+                    <input type="text" name="name" required />
                 </div>
 
                 <div>
                     <label>Description: </label>
-                    <input type="text" name="description" />
+                    <input type="text" name="description" required/>
                 </div>
 
                 <div>
                     <label>Time: </label>
-                    <input type="datetime-local" name="time" />
+                    <input type="datetime-local" name="time" required />
                 </div>
 
                 <div>
                     <label>Location: </label>
-                    <select name='placeId'>
+                    <select name='placeId' required>
                         {props.locations.map(location=>
                             <option value={location.placeId}>{locationToString(location)}</option>
                             )}

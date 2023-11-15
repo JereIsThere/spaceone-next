@@ -7,14 +7,20 @@
     flex-direction: row;
     justify-content: space-around;
     margin: 15px;
+    gap: 10px;
 }
 
-.linkButton{
+a:has(.linkButton) {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.linkButton {
     background-color: #005289;
     border-radius: 5px;
     padding: 5px;
     color: white;
-    min-width: 300px;
+    width: 100%;
 }
 
 .divider{

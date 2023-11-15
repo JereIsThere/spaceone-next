@@ -4,11 +4,12 @@ import EventFormTest from "./EventFormTest";
 import EventFormTest2 from "./EventFormTest2";
 import { EventForm } from "./EventForm";
 import { LocationDisplay } from "./LocationDisplay";
+import styles from "./styles.module.css";
 
 type EventPage = {}
 
 const EventPage = async (props: EventPage) => {
-    const events = await prisma.events.findMany({include: {place: true}})
+    const events = await prisma.events.findMany({include: {place: true}, orderBy: { eventId: "asc" }})
     const locations = await prisma.locations.findMany()
 
     return (<>
@@ -16,7 +17,7 @@ const EventPage = async (props: EventPage) => {
         {/* <LocationDisplay locations={locations} /> */}
         {/* <EventFormTest /> */}
         {/* <EventFormTest2 onSuccess={() => window.alert("Successfully added!")} /> */}
-        <div className="cardContainer">
+        <div className={styles.cardContainer}>
             {/* <EventCard name="testEvent" description="this is a debug card, it's always here." location="Am Trotz 20, '58, Erde" time={new Date()} />
             <EventCard name="testEvent2" description="second debug card!!" location="Am Trotz 20, '58, Erde" time={new Date()} /> */}
             {events.map(event =>

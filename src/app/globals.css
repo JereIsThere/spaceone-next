@@ -26,16 +26,21 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.cardContainer{
-  display: flex;
-  /* background-color: blue; */
-  justify-content: left;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
 .input{
   color: black;
   background-color: black;
 
+}
+
+input,
+select {
+  border: 1px solid black;
+  margin: 2.5px 5px;
+}
+
+button {
+  background: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 3px 10px;
 }

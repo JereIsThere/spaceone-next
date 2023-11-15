@@ -1,16 +1,16 @@
-.eventRegisterContainer{
+.eventRegisterContainer {
     display: flex;
     flex-direction: column;
     /* min-width: 1000px; */
     max-width: 700px;
-    border: '5px solid #ccc';
-    border-radius: '10px';
-    padding: '20px';
+    border: 5px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
     background-color: lightgray;
     /* background-color: yellow; */
 }
 
-.eventForm{
+.eventForm {
     /* border: '1px solid #ccc';
     border-radius: '10px';
     padding: '20px'; */
@@ -18,39 +18,48 @@
     margin: '0 auto';
 }
 
-.eventCard{
+.cardContainer {
+    display: flex;
+    /* background-color: blue; */
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 15px;
+}
+
+.eventCard {
     background-color: azure;
     border-radius: 15px;
     justify-content: center;
     align-items: center;
     padding: 15px;
-    margin: 15px;
+    flex-grow: 1;
 }
 
-.name{
+.name {
     font-weight: 600;
     text-align: center;
     color: black;
     margin-bottom: 20pxy;
 }
 
-.time{
+.time {
     color: black;
     text-align: right;
 }
 
-.location{
+.location {
     color: black;
     text-align: left;
 }
 
-.description{
+.description {
     color: black;
     margin-top: 15px;
 }
 
-.input{
+.input {
     width: '100%';
     padding: '8px';
-    border-radius: '5px' 
+    border-radius: '5px'
 }
