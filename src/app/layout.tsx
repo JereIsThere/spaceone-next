@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Banner } from '@/components/banner'
 import { NavBar } from '@/components/NavBar'
+import { Session } from 'next-auth'
+import { AuthProvider } from './auth/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,18 +15,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { session, ...params },
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  params: { session: Session },
 }) {
   return (
     <html lang="en">
       <body>
-        <Banner isCollapsed={true} />
-        <NavBar />
-        
-        <div>
-          {children}
-        </div>
+        <AuthProvider session={session}>
+          <Banner isCollapsed={true} />
+          <NavBar />
+
+          <div>
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   )
