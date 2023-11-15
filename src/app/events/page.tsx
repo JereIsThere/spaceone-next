@@ -13,7 +13,7 @@ const EventPage = async (props: EventPage) => {
 
     return (<>
         <EventForm locations={locations}/>
-        <LocationDisplay locations={locations} />
+        {/* <LocationDisplay locations={locations} /> */}
         {/* <EventFormTest /> */}
         {/* <EventFormTest2 onSuccess={() => window.alert("Successfully added!")} /> */}
         <div className="cardContainer">

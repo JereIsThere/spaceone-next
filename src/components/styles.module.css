@@ -1,0 +1,23 @@
+.banner{
+    width: 100%;
+}
+
+.navContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 15px;
+}
+
+.linkButton{
+    background-color: #005289;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    min-width: 300px;
+}
+
+.divider{
+    border-top: 2px solid black;
+    margin: 10px;
+}

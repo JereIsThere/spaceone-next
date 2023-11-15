@@ -1,14 +1,10 @@
 'use client'
 
-import { prisma } from '@/components/prisma';
-import z from 'zod';
-import { zfd } from 'zod-form-data';
-import styles from './styles.module.css';
-import { revalidatePath } from 'next/cache';
-import {create} from './createFormAction'
-import { useRef } from 'react';
 import { Prisma } from '@prisma/client';
+import { useRef } from 'react';
 import { locationToString } from './LocationDisplay';
+import { create } from './createFormAction';
+import styles from './styles.module.css';
 
 type EventFormProps = {
     locations: Prisma.locationsGetPayload<true>[]
@@ -24,13 +20,7 @@ export const EventForm = (props:EventFormProps) => {
 
     return (
         <div className={styles.eventRegisterContainer}>
-            <form action={createCallback} ref={formRef} style={{
-                border: '1px solid #ccc',
-                borderRadius: '10px',
-                padding: '20px',
-                maxWidth: '400px',
-                margin: '0 auto',
-            }} >
+            <form action={createCallback} ref={formRef} className={styles.eventForm} >
                 <div>
                     <label>Name: </label>
                     <input type="text" name="name" />
