@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import ldap, { SearchOptions } from "ldapjs"
 import User from "next-auth"
 
-const createClient = ()=>{
+export const createClient = () => {
   return ldap.createClient({
     url: 'ldap://192.168.188.69',//process.env.LDAP_URI,
     reconnect: true,
@@ -42,7 +42,9 @@ const LDAPProvider = () =>
     async authorize(credentials, req) {
       const client = createClient()
 
-      var user = {}
+      var user = {
+        name: ""
+      }
       var opts: SearchOptions = {
         filter: `(uid=${credentials?.username})`,
         scope: "sub",
@@ -52,24 +54,26 @@ const LDAPProvider = () =>
       if (credentials == undefined) {
         throw new Error("Credentials are undefined!")
         // console.log("credentials are undefined")
-      } 
+      }
 
       // Essentially promisify the LDAPJS client.bind function
       return new Promise((resolve, reject) => {
         console.log("--------------STARTING SEARCH----------")
         client.search(
-          `cn=${credentials.username},dc=spaceone,dc=local`,
+          `ou=${credentials.username},dc=spaceone,dc=local`,
           opts,
-          function(err, res){
-            if(err){
+          function (err, res) {
+            if (err) {
               console.log("Error while searching LDAP")
               reject(err)
-            }else{
+            } else {
               var entries = []
-              res.on("searchEntry", function(entry){
+              res.on("searchEntry", function (entry) {
+                //LDAP Search entries
+
                 console.log("ATTRIBUTES: ", JSON.stringify(entry, null, 2))
                 entries.push(entry)
-                client.bind(
+                /*client.bind(
                   entry.dn,
                   credentials.password,
                   (error) =>{
@@ -86,8 +90,43 @@ const LDAPProvider = () =>
                       })
                     }
                   }
-                )
-              })
+                ) */
+                client.bind(
+                  entry.attributes[0].values[0], //dn,
+                  credentials.password,
+                  (error) => {
+                    if (error) {
+                      console.error("login failed");
+                      reject(error);
+                    } else {
+                      console.log("Logged in");
+                      user.name = entry.attributes[2].values[0] //cn;
+                      console.log("logedin user", user);
+
+                      resolve({
+                        id: entry.attributes[3].values[0], //uid,
+                        name: entry.attributes[2].values[0], //cn;,
+                        //password: credentials.password
+                        email: credentials.password,
+                      });
+                    }
+                  }
+                );
+              });
+              res.on("searchReference", function (referral) {
+                console.log("Referral", referral);
+              });
+              res.on("error", function (err) {
+                console.log("Error is", err);
+                reject();
+              });
+              res.on("end", function (result) {
+                console.log("Result is", result);
+                let entrylength = entries.length;
+                if (entrylength <= 0) {
+                  reject("Invalid Credentials");
+                }
+              });
             }
           }
         )
