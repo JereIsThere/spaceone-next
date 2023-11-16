@@ -16,10 +16,9 @@ function LoginPage() {
 
     const handleSubmit = async (data: FormData) => {
         const credentials = schema.parse(data);
-
-        console.log("Entered callback!", credentials)
         // console.log(e)
 
+        console.log("trying to sign in...   ")
         const result = await signIn('credentials', {redirect: false, ...credentials});
         router.refresh()
     };
