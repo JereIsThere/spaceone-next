@@ -72,7 +72,7 @@ const LDAPProvider = () =>
               res.on("searchEntry", function (entry) {
                 //LDAP Search entries
 
-                console.log("ATTRIBUTES: ", JSON.stringify(entry, null, 2))
+                //console.log("ATTRIBUTES: ", JSON.stringify(entry, null, 2))
                 entries.push(entry)
                 /*client.bind(
                   entry.dn,
