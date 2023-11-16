@@ -46,7 +46,7 @@ const LDAPProvider = () =>
         name: ""
       }
       var opts: SearchOptions = {
-        filter: `(uid=${credentials?.username})`,
+        filter: `(samaccountname=${credentials?.username})`,
         scope: "sub",
         attributes: ["dn", "sn", "cn", "uid"]
       }
@@ -60,7 +60,8 @@ const LDAPProvider = () =>
       return new Promise((resolve, reject) => {
         console.log("--------------STARTING SEARCH----------")
         client.search(
-          `ou=${credentials.username},dc=spaceone,dc=local`,
+          // `ou=${credentials.username},dc=spaceone,dc=local`,
+          `OU=SpaceOne,DC=spaceone,DC=local`,
           opts,
           function (err, res) {
             if (err) {
