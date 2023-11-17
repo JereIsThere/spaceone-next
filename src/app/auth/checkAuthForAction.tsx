@@ -78,7 +78,7 @@ export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolea
     console.log(`Accessing: ${site} with user: ${user?.name}, ${user?.email}`)
 
     if (!user)
-        if (site != SITE.LOGIN)
+        if (site == SITE.LOGIN)
             return true
         else
             return false
