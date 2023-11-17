@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/nextauth"
 import { SITE, UnauthorizedPage, checkAuthForView } from "../auth/checkAuthForAction"
 
-export const FTP = async () => {
+const FTP = async () => {
     const session = await getServerSession(authOptions)
     const user = session?.user
 
