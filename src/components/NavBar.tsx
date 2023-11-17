@@ -2,10 +2,12 @@ import { getServerSession } from "next-auth";
 import LinkButton from "./LinkButton"
 import styles from './styles.module.css'
 import { authOptions } from "@/app/auth/nextauth";
+import { SITE, checkAuthForView } from "@/app/auth/checkAuthForAction";
 
 export const NavBar = async () => {
 
     const session = await getServerSession(authOptions)
+    const user = session?.user
 
     if (!session?.user)
         return (
@@ -16,6 +18,8 @@ export const NavBar = async () => {
             <hr className={styles.divider}/>
         </>
             )
+
+    const canView = (site: SITE) => checkAuthForView(user)
 
     return (
         <>

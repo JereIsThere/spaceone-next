@@ -28,14 +28,14 @@ const LDAPProvider = () =>
 
       // Essentially promisify the LDAPJS client.bind function
       return new Promise((resolve, reject) => {
-        if(credentials == undefined){
+        if (credentials == undefined) {
           reject("Credentials null.")
           return
         }
 
         client.bind(`${credentials.username}@spaceone.local`, credentials.password, (error) => {
           console.log("starting bind...")
-          console.log("message: ",error?.message)
+          console.log("message: ", error?.message)
 
           if (error) {
             console.error("Failed")
@@ -54,42 +54,53 @@ const LDAPProvider = () =>
                 "memberOf" //division
               ]
             }
-            client.search(`OU=SpaceOne,DC=spaceone,DC=local`,opts,
-              (err, res)=>{
-                if(err){
+            client.search(`OU=SpaceOne,DC=spaceone,DC=local`, opts,
+              (err, res) => {
+                if (err) {
                   console.log("Query error!!!")
                   reject("Error while searching LDAP")
-                }else{
+                } else {
                   var entries = []
                   var user = {
-                    dn:"",
-                    cn:"",
-                    division:""
+                    dn: "",
+                    cn: "",
+                    memberOf: ""
                   }
-                  res.on("searchEntry", 
-                    (entry)=>{
+                  res.on("searchEntry",
+                    (entry) => {
                       entries.push(entry)
                       const attr = entry.attributes
                       console.log("Attributes: ", JSON.stringify(entry.attributes, null, 3))
                       //console.log(attr)
 
                       //dn = id;; cn = name;; memberOf = division
-                      //TODO left off here
-                      user.dn = attr.find((attribute)=>attribute.type.toLowerCase() == "distinguishedName")!!.values[0]
-                      user.cn = attr.find((attri)=>attri.type.toLowerCase() == "cn")!!.values[0]
-                      user.division = attr.find((attri)=>attri.type.toLowerCase() == "memberof")!!.values[0]
+                      const attributes = new Map(attr.map((attribute) =>
+                        [attribute.type, attribute.values[0]]
+                      ))
 
-                      console.log("USER: ",   JSON.stringify(user, null, 3))
-                  })
+                      user.dn = attributes.get('distinguishedName') ?? "Error"
+                      user.cn = attributes.get('cn') ?? "Error"
+                      user.memberOf = attributes.get('memberOf') ?? "Error"
+                      user.memberOf = getDivision(user.memberOf)
+
+                      // user.memberOf.split('CN')
+
+                      console.log("USER: ", JSON.stringify(user, null, 3))
+                      resolve({
+                        id: user.dn,
+                        name: `${user.cn}, member of ${user.memberOf}`,
+                        email: user.memberOf
+                      })
+                    })
                 }
               })
 
-            resolve({
-              id: credentials.username,
-              name: credentials.username,
-              email: credentials.password,
-              image: ""
-            })
+            // resolve({
+            //   id: credentials.username,
+            //   name: credentials.username,
+            //   email: credentials.password,
+            //   image: ""
+            // })
           }
         })
       })
@@ -108,3 +119,8 @@ export const authOptions: AuthOptions = {
 }
 
 export const NextAuthHandler = NextAuth(authOptions);
+
+export const getDivision = (memberOfString: string): string => {
+  const str = memberOfString.split("CN=")[1]
+  return str.substring(0,str.length-1)
+}
