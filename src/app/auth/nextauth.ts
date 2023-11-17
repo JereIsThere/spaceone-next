@@ -5,10 +5,8 @@ import User from "next-auth"
 import { rejects } from "assert"
 
 export const createClient = () => {
-  console.log("creating client!")
   return ldap.createClient({
-    url: 'ldap://192.168.188.69',//process.env.LDAP_URI,
-    //url: '192.168.188.69',
+    url: 'ldap://192.168.188.69',
     reconnect: true,
   })
 }
@@ -65,7 +63,6 @@ const LDAPProvider = () =>
                     (entry) => {
                       entries.push(entry)
                       const attr = entry.attributes
-                      console.log("Attributes: ", JSON.stringify(entry.attributes, null, 3))
 
                       //dn = id;; cn = name;; memberOf = division
                       const attributes = new Map(attr.map((attribute) =>

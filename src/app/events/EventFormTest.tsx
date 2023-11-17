@@ -6,8 +6,6 @@ const EventFormTest = () => {
     async function create(formData: FormData) {
         'use server'
 
-        //console.log(JSON.stringify(formData))
-
         const response = await fetch('/api/submitEvent', {
             method: 'POST',
             headers: {

@@ -15,11 +15,9 @@ const schema = zfd.formData({
 
 export async function create(formData: FormData) {
     const data = schema.parse(formData)
-    console.log(data)
 
     await prisma.events.create({
         data: data
     });
-    console.log("the event now plagues the database ;-(")
     revalidatePath("/events")
 }

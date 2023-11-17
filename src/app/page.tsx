@@ -12,7 +12,7 @@ export default async function Home() {
         {
           (!!user)
           ?<h2 style={{width: '100%', textAlign: 'center'}}>You are logged in as {session?.user?.name}</h2>
-          : <LinkButton link="/login" text="Login!"/> 
+          : <div style={{width: '300px'}}><LinkButton link="/login" text="Login!"/></div> 
         }
         
     </>

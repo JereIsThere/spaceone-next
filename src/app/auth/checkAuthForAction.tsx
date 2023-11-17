@@ -75,7 +75,7 @@ function getDivision(user: AuthUser | undefined): DIVISIONS {
 }
 
 export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolean {
-    console.log(`Accessing: ${site} with user: ${user}`)
+    console.log(`Accessing: ${site} with user: ${user?.name}, ${user?.email}`)
 
     if (!user)
         if (site != SITE.LOGIN)
