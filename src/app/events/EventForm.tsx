@@ -40,7 +40,7 @@ export const EventForm = (props:EventFormProps) => {
                     <label>Location: </label>
                     <select name='placeId' required>
                         {props.locations.map(location=>
-                            <option value={location.placeId}>{locationToString(location)}</option>
+                            <option value={location.placeId} key={location.placeId}>{locationToString(location)}</option>
                             )}
                     </select>
                 </div>

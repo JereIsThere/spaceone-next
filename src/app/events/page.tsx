@@ -1,13 +1,10 @@
 import { prisma } from "@/components/prisma";
+import { getServerSession } from "next-auth/next";
+import { ACTIONS, SITE, UnauthorizedPage, checkAuthForAction } from "../auth/checkAuthForAction";
+import { authOptions } from "../auth/nextauth";
 import EventCard from "./EventCard";
-import EventFormTest from "./EventFormTest";
-import EventFormTest2 from "./EventFormTest2";
 import { EventForm } from "./EventForm";
-import { LocationDisplay } from "./LocationDisplay";
 import styles from "./styles.module.css";
-import { ACTIONS, SITE, UnauthorizedPage, checkAuthForAction, checkAuthForEdit } from "../auth/checkAuthForAction";
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/nextauth"
 
 type EventPage = {}
 
@@ -32,6 +29,7 @@ const EventPage = async (props: EventPage) => {
                     description={event.description ?? ""}
                     location={event.place}
                     time={event.time}
+                    key={event.eventId}
                 />
             )}
         </div>
