@@ -5,21 +5,27 @@ import EventFormTest2 from "./EventFormTest2";
 import { EventForm } from "./EventForm";
 import { LocationDisplay } from "./LocationDisplay";
 import styles from "./styles.module.css";
+import { ACTIONS, SITE, UnauthorizedPage, checkAuthForAction, checkAuthForEdit } from "../auth/checkAuthForAction";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/nextauth"
 
 type EventPage = {}
 
 const EventPage = async (props: EventPage) => {
+    const session = await getServerSession(authOptions)
+
+    const canView = checkAuthForAction(session?.user, SITE.EVENTS, ACTIONS.VIEW)
+    const canEdit = checkAuthForAction(session?.user, SITE.EVENTS, ACTIONS.EDIT)
+
+    if(!canView)
+        return <UnauthorizedPage user={session?.user}/>
+
     const events = await prisma.events.findMany({include: {place: true}, orderBy: { eventId: "asc" }})
     const locations = await prisma.locations.findMany()
 
     return (<>
-        <EventForm locations={locations}/>
-        {/* <LocationDisplay locations={locations} /> */}
-        {/* <EventFormTest /> */}
-        {/* <EventFormTest2 onSuccess={() => window.alert("Successfully added!")} /> */}
+       {(canEdit) ?  <EventForm locations={locations}/> : <></>}
         <div className={styles.cardContainer}>
-            {/* <EventCard name="testEvent" description="this is a debug card, it's always here." location="Am Trotz 20, '58, Erde" time={new Date()} />
-            <EventCard name="testEvent2" description="second debug card!!" location="Am Trotz 20, '58, Erde" time={new Date()} /> */}
             {events.map(event =>
                 <EventCard
                     name={event.name}

@@ -18,12 +18,14 @@ export enum ACTIONS {
     EDIT
 }
 
+
 export enum SITE {
     DB,
     SHOP,
     EVENTS,
     FTP,
-    MAIL
+    MAIL,
+    LOGIN
 }
 
 const divisionStrings = new Map([
@@ -32,26 +34,88 @@ const divisionStrings = new Map([
     ["Recruitment", DIVISIONS.RECRUITMENT],
     ["Merchandise", DIVISIONS.MERCHANDISE],
     ["Investor Relations", DIVISIONS.INVESTOR_RELATIONS],
-    ["IT", DIVISIONS.IT],
+    ["Interne_IT", DIVISIONS.IT],
     ["Facility", DIVISIONS.FACILITY],
     ["Undefined", DIVISIONS.UNDEFINED]
 ])
 
-export function checkAuthForView(user: User | AdapterUser, site: SITE): boolean {
-    const divStr = user.email ?? "Undefined"
-    const usableDivision = divisionStrings.get(divStr)
+export type AuthUser = {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+    image?: string | null | undefined;
+}
 
+export function checkAuthForAction(user: AuthUser | undefined, site: SITE, action: ACTIONS): boolean{
+    switch (action) {
+        case ACTIONS.VIEW:
+            return checkAuthForView(user, site)
+        case ACTIONS.EDIT:
+            return checkAuthForEdit(user, site)
+        default:
+            return false
+    }    
+}
+
+export function checkAuthForEdit(user: AuthUser|undefined, site: SITE):boolean{
+    const division = getDivision(user)
+
+    switch (site) {
+        case SITE.EVENTS:
+            return division == DIVISIONS.GESCHAEFTSLEITUNG
+        default:
+            return checkAuthForView(user, site)
+    }
+}
+
+function getDivision(user: AuthUser|undefined): DIVISIONS{
+    const divStr = user?.email ?? "Undefined"
+    const usableDivision = divisionStrings.get(divStr) ?? DIVISIONS.UNDEFINED
+
+    return usableDivision
+}
+
+export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolean {
+
+    if (!user)
+        return false
+
+    //#MBF (Mark Born Forever)
     if (user.name == "Mark Born")
         return true
 
+    const division = getDivision(user)
+    const hasDivision = division != DIVISIONS.UNDEFINED
+
     switch (site) {
         case SITE.DB:
-            return usableDivision == DIVISIONS.IT
-        case SITE.SHOP || SITE.EVENTS || SITE.MAIL:
-            return usableDivision != DIVISIONS.UNDEFINED
+            return division == DIVISIONS.IT
+        case SITE.EVENTS:
+            return hasDivision
+        case SITE.MAIL:
+            return hasDivision
+        case SITE.SHOP:
+            return hasDivision
         case SITE.FTP:
-            return usableDivision == DIVISIONS.MARSOLOGIE || usableDivision == DIVISIONS.GESCHAEFTSLEITUNG
+            return division == DIVISIONS.MARSOLOGIE || division == DIVISIONS.GESCHAEFTSLEITUNG
+        case SITE.LOGIN:
+            return !hasDivision
         default:
             return false
     }
+}
+
+type UnauthorizedPageProps = {
+    user: AuthUser | undefined,
+}
+export const UnauthorizedPage = (props: UnauthorizedPageProps) => {
+    const user = props.user
+
+    if (!user)
+        return (<>
+            <h1>To use this site, you need to be logged in.</h1>
+        </>)
+
+    return (<>
+        <h1>You are {user.name}, and as a Member of {user.email}, you are not Authorized to view this page.</h1>
+    </>)
 }

@@ -88,7 +88,7 @@ const LDAPProvider = () =>
                       console.log("USER: ", JSON.stringify(user, null, 3))
                       resolve({
                         id: user.dn,
-                        name: `${user.cn}, member of ${user.memberOf}`,
+                        name: user.cn,
                         email: user.memberOf
                       })
                     })
