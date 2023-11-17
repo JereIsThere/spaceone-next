@@ -13,7 +13,7 @@ const FTP = async () => {
     }
 
     return (<>
-        <h1>Your are permission</h1>
+        <h1>This is the FTP-Page!</h1>
     </>)
 }
 export default FTP

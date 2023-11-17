@@ -45,7 +45,7 @@ export type AuthUser = {
     image?: string | null | undefined;
 }
 
-export function checkAuthForAction(user: AuthUser | undefined, site: SITE, action: ACTIONS): boolean{
+export function checkAuthForAction(user: AuthUser | undefined, site: SITE, action: ACTIONS): boolean {
     switch (action) {
         case ACTIONS.VIEW:
             return checkAuthForView(user, site)
@@ -53,10 +53,10 @@ export function checkAuthForAction(user: AuthUser | undefined, site: SITE, actio
             return checkAuthForEdit(user, site)
         default:
             return false
-    }    
+    }
 }
 
-export function checkAuthForEdit(user: AuthUser|undefined, site: SITE):boolean{
+export function checkAuthForEdit(user: AuthUser | undefined, site: SITE): boolean {
     const division = getDivision(user)
 
     switch (site) {
@@ -67,7 +67,7 @@ export function checkAuthForEdit(user: AuthUser|undefined, site: SITE):boolean{
     }
 }
 
-function getDivision(user: AuthUser|undefined): DIVISIONS{
+function getDivision(user: AuthUser | undefined): DIVISIONS {
     const divStr = user?.email ?? "Undefined"
     const usableDivision = divisionStrings.get(divStr) ?? DIVISIONS.UNDEFINED
 
@@ -75,9 +75,13 @@ function getDivision(user: AuthUser|undefined): DIVISIONS{
 }
 
 export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolean {
+    console.log(`Accessing: ${site} with user: ${user}`)
 
     if (!user)
-        return false
+        if (site != SITE.LOGIN)
+            return true
+        else
+            return false
 
     //#MBF (Mark Born Forever)
     if (user.name == "Mark Born")

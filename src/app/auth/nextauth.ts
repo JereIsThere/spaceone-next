@@ -21,8 +21,6 @@ const LDAPProvider = () =>
       password: { label: "Password", type: "password" },
     },
     async authorize(credentials, req) {
-      console.log("starting auth")
-
       // You might want to pull this call out so we're not making a new LDAP client on every login attemp
       const client = createClient()
 
@@ -34,9 +32,6 @@ const LDAPProvider = () =>
         }
 
         client.bind(`${credentials.username}@spaceone.local`, credentials.password, (error) => {
-          console.log("starting bind...")
-          console.log("message: ", error?.message)
-
           if (error) {
             console.error("Failed")
             reject()
@@ -71,7 +66,6 @@ const LDAPProvider = () =>
                       entries.push(entry)
                       const attr = entry.attributes
                       console.log("Attributes: ", JSON.stringify(entry.attributes, null, 3))
-                      //console.log(attr)
 
                       //dn = id;; cn = name;; memberOf = division
                       const attributes = new Map(attr.map((attribute) =>
@@ -82,9 +76,7 @@ const LDAPProvider = () =>
                       user.cn = attributes.get('cn') ?? "Error"
                       user.memberOf = attributes.get('memberOf') ?? "Error"
                       user.memberOf = getDivision(user.memberOf)
-
-                      // user.memberOf.split('CN')
-
+                      
                       console.log("USER: ", JSON.stringify(user, null, 3))
                       resolve({
                         id: user.dn,

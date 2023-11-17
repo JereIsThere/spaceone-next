@@ -28,7 +28,7 @@ function LoginPage() {
 
     return (
         status === "authenticated" ? 
-        <p>Fuck you {data.user?.name} <br/><button onClick={() => signOut()}>logout</button></p>
+        <p>Logged in as {data.user?.name} <br/><button onClick={() => signOut()}>logout</button></p>
         :
         <form action={handleSubmit}>
             <label>
