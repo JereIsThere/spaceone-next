@@ -42,14 +42,14 @@ const LocationForm = (props: LocationFormProps) => {
                 street_number 
                 building      
                 room */}
-                {/* <AutoCompleteList id="planet_list" values={ acl.planets} />
+                <AutoCompleteList id="planet_list" values={ acl.planets} />
                 <AutoCompleteList id="country_list" values={acl.countries}/>
                 <AutoCompleteList id="zip_code_list" values={acl.zip_codes}/>
                 <AutoCompleteList id="city_list" values={acl.cities}/>
                 <AutoCompleteList id="street_list" values={acl.streets}/>
                 <AutoCompleteList id="street_number_list" values={acl.street_numbers}/>
                 <AutoCompleteList id="building_list" values={acl.buildings}/>
-                <AutoCompleteList id="room_list" values={acl.rooms}/> */}
+                <AutoCompleteList id="room_list" values={acl.rooms}/>
 
                 <div>
                     <label>Planet: </label>
