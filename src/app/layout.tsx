@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '../styles/globals.css'
 import { Banner } from '@/components/banner'
 import { NavBar } from '@/components/NavBar'
 import { Session } from 'next-auth'
@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <AuthProvider session={session}>
           <Banner isCollapsed={true} />
           <NavBar />

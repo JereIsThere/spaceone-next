@@ -2,19 +2,20 @@
 
 import { Prisma } from '@prisma/client';
 import { useRef } from 'react';
-import { locationToString } from './LocationDisplay';
-import { create } from './createFormAction';
+import { createEvent } from './createFormAction';
 import styles from './styles.module.css';
+import { Part, locationToString } from '@/util/stringConverter';
 
 type EventFormProps = {
-    locations: Prisma.locationsGetPayload<true>[]
+    locations: Prisma.locationsGetPayload<true>[],
+    toggleLocationForm: () => void
 }
 
 export const EventForm = (props:EventFormProps) => {
     const formRef = useRef<HTMLFormElement>(null)
 
     const createCallback = async (formData: FormData)=>{
-        await create(formData)
+        await createEvent(formData)
         formRef.current?.reset()
     }
 
@@ -36,13 +37,14 @@ export const EventForm = (props:EventFormProps) => {
                     <input type="datetime-local" name="time" required />
                 </div>
 
-                <div>
+                <div className={styles.locationsContainer}>
                     <label>Location: </label>
                     <select name='placeId' required>
                         {props.locations.map(location=>
-                            <option value={location.placeId} key={location.placeId}>{locationToString(location)}</option>
+                            <option value={location.placeId} key={location.placeId}>{locationToString(location, Part.BOTH)}</option>
                             )}
                     </select>
+                    <img src="/ic_add.png" className={styles.addButton} onClick={()=>props.toggleLocationForm()}/>
                 </div>
 
                 <div>
@@ -50,7 +52,7 @@ export const EventForm = (props:EventFormProps) => {
                     <input type="checkbox" name="hasTeamsCall" />
                 </div>
 
-                <button type="submit">Submit</button>
+                <button className={styles.submitButton}  type="submit">Submit</button>
             </form>
         </div>
     );

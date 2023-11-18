@@ -1,0 +1,41 @@
+:root{
+  --body-color: #000000;
+  --dark-light-grey: #212121;
+  --light-grey: #303030;
+  --grey: #424242;
+
+  --primary-text: #ffffff;
+  --secondary-text: #ffffff;
+
+  --primary: #005289;
+}
+
+body {
+  color: var(--primary-text);
+  background-color: var(--body-color);
+}
+
+/* input {
+  color: var(--primary-text);
+  background-color: var(--light-grey);
+} */
+
+input,
+select {
+  border: 1px solid var(--primary-text);
+  margin: 2.5px 5px;
+  background-color: var(--light-grey);
+  color: var(--primary-text);
+}
+
+button {
+  background: var(--primary);
+  border: 1px solid var(--primary-text);
+  color: var(--primary-text);
+  border-radius: 5px;
+  padding: 3px 10px;
+}
+
+/* body{
+  background-color: var(--body-color);
+} */

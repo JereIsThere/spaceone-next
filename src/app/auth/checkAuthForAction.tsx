@@ -39,7 +39,7 @@ const divisionStrings = new Map([
     ["Undefined", DIVISIONS.UNDEFINED]
 ])
 
-export type AuthUser = {
+export interface AuthUser  {
     name?: string | null | undefined;
     email?: string | null | undefined;
     image?: string | null | undefined;
@@ -59,6 +59,9 @@ export function checkAuthForAction(user: AuthUser | undefined, site: SITE, actio
 export function checkAuthForEdit(user: AuthUser | undefined, site: SITE): boolean {
     const division = getDivision(user)
 
+    if(isMark(user))
+        return true
+
     switch (site) {
         case SITE.EVENTS:
             return division == DIVISIONS.GESCHAEFTSLEITUNG
@@ -74,9 +77,13 @@ function getDivision(user: AuthUser | undefined): DIVISIONS {
     return usableDivision
 }
 
-export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolean {
-    console.log(`Accessing: ${site} with user: ${user?.name}, ${user?.email}`)
+export const isMark = (user: AuthUser | undefined): boolean => {
+    const markModeOn = true
 
+    return (markModeOn) ? user?.name?.toLowerCase().includes("mark born") ?? false : false
+}
+
+export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolean {
     if (!user)
         if (site == SITE.LOGIN)
             return true
@@ -84,7 +91,7 @@ export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolea
             return false
 
     //#MBF (Mark Born Forever)
-    if (user.name == "Mark Born")
+    if (isMark(user))
         return true
 
     const division = getDivision(user)

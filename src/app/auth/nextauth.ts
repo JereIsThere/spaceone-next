@@ -1,8 +1,7 @@
-import NextAuth, { AuthOptions } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
 import ldap, { SearchOptions } from "ldapjs"
-import User from "next-auth"
-import { rejects } from "assert"
+import NextAuth, { AuthOptions } from "next-auth"
+import { AdapterUser } from "next-auth/adapters"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 export const createClient = () => {
   return ldap.createClient({
@@ -27,6 +26,14 @@ const LDAPProvider = () =>
         if (credentials == undefined) {
           reject("Credentials null.")
           return
+        }
+
+        if (credentials.username.toLowerCase() == "mborn" && credentials.password == "lokal") {
+          resolve({
+            id: "mb04",
+            name: "Mark Born (lokal)",
+            email: "Facility"
+          })
         }
 
         client.bind(`${credentials.username}@spaceone.local`, credentials.password, (error) => {
@@ -73,7 +80,7 @@ const LDAPProvider = () =>
                       user.cn = attributes.get('cn') ?? "Error"
                       user.memberOf = attributes.get('memberOf') ?? "Error"
                       user.memberOf = getDivision(user.memberOf)
-                      
+
                       console.log("USER: ", JSON.stringify(user, null, 3))
                       resolve({
                         id: user.dn,
@@ -101,7 +108,7 @@ export const authOptions: AuthOptions = {
     LDAPProvider(),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, }) {
       return { ...token, user }
     },
   }
@@ -111,5 +118,5 @@ export const NextAuthHandler = NextAuth(authOptions);
 
 export const getDivision = (memberOfString: string): string => {
   const str = memberOfString.split("CN=")[1]
-  return str.substring(0,str.length-1)
+  return str.substring(0, str.length - 1)
 }

@@ -3,8 +3,9 @@ import { getServerSession } from "next-auth/next";
 import { ACTIONS, SITE, UnauthorizedPage, checkAuthForAction } from "../auth/checkAuthForAction";
 import { authOptions } from "../auth/nextauth";
 import EventCard from "./EventCard";
-import { EventForm } from "./EventForm";
+import FormContainer from "./FormContainer";
 import styles from "./styles.module.css";
+import { Location } from "@/util/typeDefs";
 
 type EventPage = {}
 
@@ -14,14 +15,16 @@ const EventPage = async (props: EventPage) => {
     const canView = checkAuthForAction(session?.user, SITE.EVENTS, ACTIONS.VIEW)
     const canEdit = checkAuthForAction(session?.user, SITE.EVENTS, ACTIONS.EDIT)
 
-    if(!canView)
-        return <UnauthorizedPage user={session?.user}/>
+    console.log(`user ${JSON.stringify(session?.user)}, cv:${canView}, ce:${canEdit}`)
 
-    const events = await prisma.events.findMany({include: {place: true}, orderBy: { eventId: "asc" }})
+    if (!canView)
+        return <UnauthorizedPage user={session?.user} />
+
+    const events = await prisma.events.findMany({ include: { place: true }, orderBy: { eventId: "asc" } })
     const locations = await prisma.locations.findMany()
 
     return (<>
-       {(canEdit) ?  <EventForm locations={locations}/> : <></>}
+        {(canEdit) ? <FormContainer locations={locations} /> : <></>}
         <div className={styles.cardContainer}>
             {events.map(event =>
                 <EventCard
@@ -35,5 +38,8 @@ const EventPage = async (props: EventPage) => {
         </div>
     </>)
 }
+
+// {(canEdit) ?  <EventForm locations={locations}/> : <></>}
+//{(canEdit) ? <LocationForm locations={locations} /> : <></>}
 
 export default EventPage

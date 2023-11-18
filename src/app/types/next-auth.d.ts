@@ -8,4 +8,13 @@ declare module "next-auth/jwt" {
     username: string,
     password: string
   }
+
+  interface Session{
+    user: {
+      id: string,
+      username: string,
+      department: string,
+      [key: string]: string,
+    }
+  }
 }

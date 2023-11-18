@@ -12,7 +12,7 @@ const Webshop = async () => {
         return <UnauthorizedPage user={session?.user}/>
 
     return (
-        <div>This is the webshop-page!</div>
+        <h1>This is the webshop-page!</h1>
     )
 }
 

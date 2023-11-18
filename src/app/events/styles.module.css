@@ -1,21 +1,22 @@
+.formContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+
 .eventRegisterContainer {
     display: flex;
     flex-direction: column;
     /* min-width: 1000px; */
     max-width: 700px;
-    border: 5px solid #ccc;
+    flex-shrink: 1;
+    /* border: 5px solid #ccc; */
     border-radius: 10px;
+    justify-content: space-around;
     padding: 20px;
-    background-color: lightgray;
+    background-color: var(--light-grey);
     /* background-color: yellow; */
-}
-
-.eventForm {
-    /* border: '1px solid #ccc';
-    border-radius: '10px';
-    padding: '20px'; */
-    max-width: '600px';
-    margin: '0 auto';
 }
 
 .cardContainer {
@@ -27,8 +28,23 @@
     margin: 15px;
 }
 
+.locationsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.addButton{
+    color: var(--primary-text);
+    align-self: center;
+    justify-self: center;
+    height: 30px;
+    width: 30px;
+}
+
 .eventCard {
-    background-color: azure;
+    background-color: var(--dark-light-grey);
+    color: var(--primary-text);
     border-radius: 15px;
     justify-content: center;
     align-items: center;
@@ -39,22 +55,25 @@
 .name {
     font-weight: 600;
     text-align: center;
-    color: black;
+    color: var(--primary-text);
     margin-bottom: 20pxy;
 }
 
 .time {
-    color: black;
+    color: var(--primary-text);
     text-align: right;
 }
 
 .location {
-    color: black;
+    color: var(--primary-text);
     text-align: left;
+    white-space: pre-line;
+    justify-self: center;
+    align-self: center;
 }
 
 .description {
-    color: black;
+    color: var(--primary-text);
     margin-top: 15px;
 }
 
@@ -62,4 +81,9 @@
     width: '100%';
     padding: '8px';
     border-radius: '5px'
+}
+
+.submitButton{
+    align-self: center;
+    justify-self: last baseline;
 }
