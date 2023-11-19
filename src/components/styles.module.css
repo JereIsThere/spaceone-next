@@ -21,6 +21,7 @@ a:has(.linkButton) {
     padding: 5px;
     color: white;
     width: 100%;
+    border: none;
 }
 
 .divider{
