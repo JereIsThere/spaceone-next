@@ -8,11 +8,11 @@ export default async function Home() {
 
   return (
     <>
-        <h1 style={{width: '100%', textAlign: 'center'}}>Welcome to the Homepage!</h1>
+        <h1 style={{width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignContent: "center", justifyContent: 'center'}}>Welcome to the Homepage!</h1>
         {
           (!!user)
           ?<h2 style={{width: '100%', textAlign: 'center'}}>You are logged in as {session?.user?.name}</h2>
-          : <div style={{width: '300px'}}><LinkButton link="/login" text="Login!"/></div> 
+          : <div style={{width: '300px', alignSelf: "center", justifySelf: "center"}}><LinkButton link="/login" text="Login!"/></div> 
         }
         
     </>

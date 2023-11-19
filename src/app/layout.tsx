@@ -20,11 +20,18 @@ export default function RootLayout({
   children: React.ReactNode,
   params: { session: Session },
 }) {
+  //expand banner on homepage
+  // const siteName = JSON.parse(JSON.stringify(children))['props']['childProp']['segment']
+  // const isCollapsed = (siteName == '__PAGE__') ? false : true
+  const isCollapsed = true
+
+  // console.log(`SITE: ${siteName} || expandBanner: ${!isCollapsed}`)
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider session={session}>
-          <Banner isCollapsed={true} />
+          <Banner isCollapsed={isCollapsed} />
           <NavBar />
 
           <div>

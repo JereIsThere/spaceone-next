@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 type BannerProps = {
     isCollapsed: boolean
@@ -6,13 +7,16 @@ type BannerProps = {
 
 export const Banner = (props: BannerProps) => {
     return (
-        <Image
-            alt="Banner with logo"
-            src={getLogo(props.isCollapsed)}
-            width="0"
-            height="0"
-            sizes="100vw"
-            style={{ width: '100%', height: 'auto' }}/>
+        <Link
+            href="/">
+            <Image
+                alt="Banner with logo"
+                src={getLogo(props.isCollapsed)}
+                width="0"
+                height="0"
+                sizes="100vw"
+                style={{ width: '100%', height: 'auto' }} />
+        </Link>
     )
 }
 

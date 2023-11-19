@@ -15,8 +15,6 @@ const EventPage = async (props: EventPage) => {
     const canView = checkAuthForAction(session?.user, SITE.EVENTS, ACTIONS.VIEW)
     const canEdit = checkAuthForAction(session?.user, SITE.EVENTS, ACTIONS.EDIT)
 
-    console.log(`user ${JSON.stringify(session?.user)}, cv:${canView}, ce:${canEdit}`)
-
     if (!canView)
         return <UnauthorizedPage user={session?.user} />
 
