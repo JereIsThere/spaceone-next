@@ -78,7 +78,7 @@ function getDivision(user: AuthUser | undefined): DIVISIONS {
 }
 
 export const isMark = (user: AuthUser | undefined): boolean => {
-    const markModeOn = true
+    const markModeOn = false
 
     return (markModeOn) ? user?.name?.toLowerCase().includes("mark born") ?? false : false
 }
@@ -93,6 +93,9 @@ export function checkAuthForView(user: AuthUser | undefined, site: SITE): boolea
     //#MBF (Mark Born Forever)
     if (isMark(user))
         return true
+
+    if(user.name?.toLowerCase().startsWith('gast') && site != SITE.SHOP)
+        return false
 
     const division = getDivision(user)
     const hasDivision = division != DIVISIONS.UNDEFINED
