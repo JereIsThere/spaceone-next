@@ -26,6 +26,7 @@ function LoginPage() {
     };
     const signOutHandler = async () => {
         const result = await signOut({redirect: false})
+        router.refresh()
     }
 
     if (status === "loading")
