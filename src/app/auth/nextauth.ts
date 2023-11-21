@@ -39,7 +39,7 @@ const LDAPProvider = () =>
         client.bind(`${credentials.username}@spaceone.local`, credentials.password, (error) => {
           if (error) {
             console.error("Failed")
-            reject()
+            reject("Credentials are invalid.")
           } else {
             console.log("Logged in")
 
