@@ -117,6 +117,7 @@ export const authOptions: AuthOptions = {
 export const NextAuthHandler = NextAuth(authOptions);
 
 export const getDivision = (memberOfString: string): string => {
+  console.log(`memberOf String for user: ${memberOfString}`)
   //const str = memberOfString.split("CN=")[1]
   const str = memberOfString.split("CN=")[0]
   return str.substring(0, str.length - 1)
