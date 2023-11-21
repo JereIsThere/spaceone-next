@@ -118,6 +118,6 @@ export const NextAuthHandler = NextAuth(authOptions);
 
 export const getDivision = (memberOfString: string): string => {
   //const str = memberOfString.split("CN=")[1]
-  const str = memberOfString.split("CN=")[2]
+  const str = memberOfString.split("CN=")[0]
   return str.substring(0, str.length - 1)
 }
