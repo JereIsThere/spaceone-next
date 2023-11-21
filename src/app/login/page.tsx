@@ -24,13 +24,16 @@ function LoginPage() {
         }
         router.refresh()
     };
+    const signOutHandler = async () => {
+        const result = await signOut({redirect: false})
+    }
 
     if (status === "loading")
     return <p>warte kurz</p>
 
     return (
         status === "authenticated" ? 
-        <p>Logged in as {data.user?.name} <br/><button onClick={() => signOut()}>logout</button></p>
+        <p>Logged in as {data.user?.name} <br/><button onClick={signOutHandler}>logout</button></p>
         :
         <form action={handleSubmit}>
             <label>
