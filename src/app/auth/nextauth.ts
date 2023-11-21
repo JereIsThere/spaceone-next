@@ -78,8 +78,8 @@ const LDAPProvider = () =>
 
                       user.dn = attributes.get('distinguishedName') ?? "Error"
                       user.cn = attributes.get('cn') ?? "Error"
-                      user.memberOf = attributes.get('memberOf') ?? "Error"
-                      user.memberOf = getDivision(user.memberOf)
+                      //user.memberOf = attributes.get('memberOf') ?? "Error"
+                      user.memberOf = getDivision(user.dn)
 
                       console.log("USER: ", JSON.stringify(user, null, 3))
                       resolve({
@@ -119,6 +119,6 @@ export const NextAuthHandler = NextAuth(authOptions);
 export const getDivision = (memberOfString: string): string => {
   console.log(`memberOf String for user: ${memberOfString}`)
   //const str = memberOfString.split("CN=")[1]
-  const str = memberOfString.split("CN=")[0]
+  const str = memberOfString.split("OU=")[1]
   return str.substring(0, str.length - 1)
 }
