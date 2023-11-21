@@ -19,6 +19,9 @@ function LoginPage() {
 
         console.log("trying to sign in...   ")
         const result = await signIn('credentials', {redirect: false, ...credentials});
+        if(!result?.ok ?? false){
+            alert("Credentials invalid.")
+        }
         router.refresh()
     };
 
