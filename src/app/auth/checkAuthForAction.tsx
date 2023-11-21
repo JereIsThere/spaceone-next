@@ -1,6 +1,3 @@
-import { User } from "next-auth"
-import { AdapterUser } from "next-auth/adapters"
-import error from "next/error"
 
 export enum DIVISIONS {
     GESCHAEFTSLEITUNG,
